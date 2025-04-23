@@ -99,9 +99,9 @@ cOptimal=findc(Y);
 % 'Mantis shrimp Ford et al. 2021', 'Mantis shrimp Ford et al. 2021', 'Mantis shrimp Ford et al. 2021',...
 % 'Isopod Alexander 1988 ', 'Barnacle Larvae Wong et al. 2020', 'Mysid A. bahia Ruszczyk et al. 2021', ...
 % 'Copepod nauplii N201 Lenz et al. 2015'};
-% % ±éÀúÃ¿¸öÀà±ð²¢»æÖÆÏàÓ¦µÄÉ¢µã
+% % éåŽ†æ¯ä¸ªç±»åˆ«å¹¶ç»˜åˆ¶ç›¸åº”çš„æ•£ç‚¹
 % markers = {'o', 's','s','s', '^', 'd', 'v', '>', '<','<','<','<', 'p', 'p','p','d', '^', 'o','*'};
-% % »æÖÆÉ¢µãÍ¼
+% % ç»˜åˆ¶æ•£ç‚¹å›¾
 %labels=['Copepod','Krill','Shrimp','Tomopterid','Lobster','Barnacle Larvae'];
  numPoints = length(X);
 %colors = rand(numPoints, 3);
@@ -119,7 +119,7 @@ for i = 1:length(X)
     elseif (i>=3&&i<=5)||i==8||(i>=18&&i<=20) %shrimp
        colors(i,:)=[0 0.5 0.5];%labels(2,:)=['Shrimp'];
     elseif i==2 || i==6 %Krill
-        colors(i,:)=[0.5 0.5 0.5]; %labels(3,:)=['Krill'];% À¶É«
+        colors(i,:)=[0.5 0.5 0.5]; %labels(3,:)=['Krill'];% è“è‰²
     elseif i==7||(i>=11&&i<=17) ||i==21 %Tomopterid
         colors(i,:)=[1 0.5 0];%labels(4,:)=['Tomopterid'];
     elseif i==9||i==10 %Lobster
@@ -130,23 +130,23 @@ for i = 1:length(X)
     
     scatter(X(i), 0.01*Y(i), 100, colors(i,:), 'filled');
 end
-pp = polyfit(X, 0.01*Y, 1);  % 1 ±íÊ¾ÏßÐÔÄâºÏ
+pp = polyfit(X, 0.01*Y, 1);  % 1 è¡¨ç¤ºçº¿æ€§æ‹Ÿåˆ
 
-% p ·µ»ØµÄÊÇÏßÐÔÄâºÏµÄÏµÊý£¬p(1) ÊÇÐ±ÂÊ£¬p(2) ÊÇ½Ø¾à
+% p è¿”å›žçš„æ˜¯çº¿æ€§æ‹Ÿåˆçš„ç³»æ•°ï¼Œp(1) æ˜¯æ–œçŽ‡ï¼Œp(2) æ˜¯æˆªè·
 
-% Éú³ÉÄâºÏÏßµÄ y Öµ
+% ç”Ÿæˆæ‹Ÿåˆçº¿çš„ y å€¼
 %y_fit = polyval(pp, X);
 xx=linspace(0,0.8,100);
 yy=pp(1)*xx+pp(2);
-plot(xx, yy, 'r-', 'LineWidth', 2);  % »æÖÆÄâºÏÏß
+plot(xx, yy, 'r-', 'LineWidth', 2);  % ç»˜åˆ¶æ‹Ÿåˆçº¿
 hold on
-% Ìí¼ÓÍ¼Àý
+% æ·»åŠ å›¾ä¾‹
 %legend(labels, 'Location', 'best');
 %set(gca, 'XScale', 'log');
- set(gca, 'FontSize', 24); % ÉèÖÃ×ÖÌå´óÐ¡
-xlabel('Re_p', 'FontSize', 24); % ÉèÖÃxÖá±êÇ©
-ylabel('Phase Lag', 'FontSize', 24); % ÉèÖÃyÖá±êÇ©
-box on; % »æÖÆËÄÖÜµÄºÚ¿òÏß
+ set(gca, 'FontSize', 24); % è®¾ç½®å­—ä½“å¤§å°
+xlabel('Re_p', 'FontSize', 24); % è®¾ç½®xè½´æ ‡ç­¾
+ylabel('Phase Lag', 'FontSize', 24); % è®¾ç½®yè½´æ ‡ç­¾
+box on; % ç»˜åˆ¶å››å‘¨çš„é»‘æ¡†çº¿
 lineWidth = 2;
 set(gca, 'LineWidth', lineWidth);
 xx=xx';yy=yy';
@@ -157,31 +157,31 @@ xx=xx';yy=yy';
 function cOptimal=findc(Y)
  
 
-% ¶¨ÒåÄ¿±êº¯Êý
-objective = @(c) sum((Y - c).^2); % ²îÖµµÄÆ½·½ºÍ
+% å®šä¹‰ç›®æ ‡å‡½æ•°
+objective = @(c) sum((Y - c).^2); % å·®å€¼çš„å¹³æ–¹å’Œ
 
-% ³õÊ¼²Â²âÖµ
+% åˆå§‹çŒœæµ‹å€¼
 initialGuess = 0;
 
-% Ê¹ÓÃ×îÐ¡¶þ³Ë·¨Ñ°ÕÒ³£Êý
+% ä½¿ç”¨æœ€å°äºŒä¹˜æ³•å¯»æ‰¾å¸¸æ•°
 options = optimoptions('fminunc', 'Display', 'off');
 [cOptimal, ~] = fminunc(objective, initialGuess, options);
 end
 function [r, p] = check_correlation(X, Y)
-% ¼ìÑéXºÍYÁ½¸öÊý×éÖ®¼äµÄÏà¹ØÐÔ
-% ÊäÈë:
-%   X - µÚÒ»¸öÊý×é
-%   Y - µÚ¶þ¸öÊý×é
-% Êä³ö:
-%   r - Æ¤¶ûÑ·Ïà¹ØÏµÊý
-%   p - Ïà¹ØÏµÊýµÄpÖµ
+% æ£€éªŒXå’ŒYä¸¤ä¸ªæ•°ç»„ä¹‹é—´çš„ç›¸å…³æ€§
+% è¾“å…¥:
+%   X - ç¬¬ä¸€ä¸ªæ•°ç»„
+%   Y - ç¬¬äºŒä¸ªæ•°ç»„
+% è¾“å‡º:
+%   r - çš®å°”é€Šç›¸å…³ç³»æ•°
+%   p - ç›¸å…³ç³»æ•°çš„på€¼
 
-% ¼ÆËãÆ¤¶ûÑ·Ïà¹ØÏµÊý
+% è®¡ç®—çš®å°”é€Šç›¸å…³ç³»æ•°
 [r, p] = corrcoef(X, Y);
 r = r(1,2);
 p = p(1,2);
 
-% Êä³ö½á¹û
+% è¾“å‡ºç»“æžœ
 fprintf('Pearson correlation coefficient (r): %.4f\n', r);
 fprintf('p-value: %.4f\n', p);
 
