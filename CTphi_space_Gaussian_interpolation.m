@@ -1,8 +1,8 @@
 clear all
 clc
 
-path='C:\Users\admin\Desktop\¿Î³Ì×ÊÔ´\Òì²½ÓÎ¶¯\MLdata.xlsx';
-data = readtable(path, 'Sheet', 'Re100');
+path='C:\Users\admin\Desktop\è¯¾ç¨‹èµ„æº\å¼‚æ­¥æ¸¸åŠ¨\MLdata.xlsx';
+data = readtable(path, 'Sheet', 'Re100+Re300');
 Re100=data(:,1:10);Re300=data(:,12:17);
 %
 % Re100
@@ -42,9 +42,9 @@ for i=1:1:n
 end
 %gridSize=[40,40];
 
-     % º¯ÊıÊäÈë:
-    % inputData: n*4 ¾ØÕó£¬Ã¿ĞĞ°üº¬ [x, _, y, value]
-    % gridSize: Éú³ÉµÄ¾ùÔÈÍø¸ñµÄ´óĞ¡ (ÀıÈç [100, 100])
+     % å‡½æ•°è¾“å…¥:
+    % inputData: n*4 çŸ©é˜µï¼Œæ¯è¡ŒåŒ…å« [x, _, y, value]
+    % gridSize: ç”Ÿæˆçš„å‡åŒ€ç½‘æ ¼çš„å¤§å° (ä¾‹å¦‚ [100, 100])
    [X,Y,Z]=FEM(point);
  %[X,Y,Z]=LocalLoss(point) ;
  %[X,Y,Z]=XIANXING(point) ;
@@ -54,15 +54,15 @@ for i=1:1:351
  X_org(i,:)=X(i,:)*b(i);
 end
 surf(X_org, Y, Z);
-shading interp; % Æ½»¬×ÅÉ«
-colorbar; % Ìí¼ÓÑÕÉ«Ìõ
+shading interp; % å¹³æ»‘ç€è‰²
+colorbar; % æ·»åŠ é¢œè‰²æ¡
 xlabel('phase lag');
 ylabel('s*');
 zlabel('C_T');
-title('Ëæ»úÉ¢µãÊı¾İµÄÇúÃæ²åÖµ');
+title('éšæœºæ•£ç‚¹æ•°æ®çš„æ›²é¢æ’å€¼');
 grid on;
 %hold on;
-%scatter3(X_org, Y, Z, 50, 'r', 'filled'); % »æÖÆÉ¢µã
+%scatter3(X_org, Y, Z, 50, 'r', 'filled'); % ç»˜åˆ¶æ•£ç‚¹
 
 output(X_org,Y,Z)
 function output(X,Y,Z)
@@ -94,7 +94,7 @@ for k=1:1:m*n
 end
 fclose(fid);
   end
-    % ÌáÈ¡É¢µãµÄºá×ø±ê¡¢×İ×ø±êºÍÎïÀíÁ¿
+    % æå–æ•£ç‚¹çš„æ¨ªåæ ‡ã€çºµåæ ‡å’Œç‰©ç†é‡
   % ;
 %Yangtiao(point)
  % 
@@ -103,81 +103,81 @@ x = inputData(:, 2);
 y = inputData(:, 3);
 z = inputData(:, 4);
 
-% ´´½¨¾ùÔÈ·Ö²¼µÄÍø¸ñ
+% åˆ›å»ºå‡åŒ€åˆ†å¸ƒçš„ç½‘æ ¼
 gridSize = [201, 351];
 xGrid = linspace(0, 1, gridSize(1));
 yGrid = linspace(0.25, 2, gridSize(2));
 [X, Y] = meshgrid(xGrid, yGrid);
 
-% Ê¹ÓÃÏßĞÔ²åÖµ½øĞĞÄâºÏ
+% ä½¿ç”¨çº¿æ€§æ’å€¼è¿›è¡Œæ‹Ÿåˆ
 Z = griddata(x, y, z, X, Y, 'linear');
 
-% »æÖÆÇúÃæÄâºÏ½á¹û
+% ç»˜åˆ¶æ›²é¢æ‹Ÿåˆç»“æœ
 figure(1);
-surf(X, Y, Z, 'EdgeColor', 'none');  % »æÖÆÒ»¸öÎŞ±ßÔµµÄ±íÃæÍ¼
-colorbar;  % Ìí¼ÓÑÕÉ«Ìõ
+surf(X, Y, Z, 'EdgeColor', 'none');  % ç»˜åˆ¶ä¸€ä¸ªæ— è¾¹ç¼˜çš„è¡¨é¢å›¾
+colorbar;  % æ·»åŠ é¢œè‰²æ¡
 xlabel('X Coordinate');
 ylabel('Y Coordinate');
 zlabel('Interpolated Value');
 title('Linear Interpolation Surface Fit');
-view(3);  % ÉèÖÃÎªÈıÎ¬ÊÓÍ¼
+view(3);  % è®¾ç½®ä¸ºä¸‰ç»´è§†å›¾
 grid on;
 % hold on;
-% scatter3(x, y, z, 50, 'r', 'filled'); % »æÖÆÉ¢µã
+% scatter3(x, y, z, 50, 'r', 'filled'); % ç»˜åˆ¶æ•£ç‚¹
 end
-% ÌáÈ¡É¢µãµÄºá×ø±ê¡¢×İ×ø±êºÍÎïÀíÁ¿
+% æå–æ•£ç‚¹çš„æ¨ªåæ ‡ã€çºµåæ ‡å’Œç‰©ç†é‡
 function [X,Y,Z]=Yangtiao(inputData)
 x = inputData(:, 1);
 y = inputData(:, 3);
 z = inputData(:, 4);
 
-% ´´½¨¾ùÔÈ·Ö²¼µÄÍø¸ñ
+% åˆ›å»ºå‡åŒ€åˆ†å¸ƒçš„ç½‘æ ¼
 gridSize = [201, 351];
 xGrid = linspace(min(x), max(x), gridSize(1));
 yGrid = linspace(min(y), max(y), gridSize(2));
 [X, Y] = meshgrid(xGrid, yGrid);
 
-% Ê¹ÓÃÈı´ÎÑùÌõ²åÖµ½øĞĞÄâºÏ
-Z = griddata(x, y, z, X, Y, 'spline');  % Ê¹ÓÃÈı´ÎÑùÌõ²åÖµ
+% ä½¿ç”¨ä¸‰æ¬¡æ ·æ¡æ’å€¼è¿›è¡Œæ‹Ÿåˆ
+Z = griddata(x, y, z, X, Y, 'spline');  % ä½¿ç”¨ä¸‰æ¬¡æ ·æ¡æ’å€¼
 
-% »æÖÆÇúÃæÄâºÏ½á¹û
+% ç»˜åˆ¶æ›²é¢æ‹Ÿåˆç»“æœ
 figure;
-surf(X, Y, Z, 'EdgeColor', 'none');  % »æÖÆÒ»¸öÎŞ±ßÔµµÄ±íÃæÍ¼
-colorbar;  % Ìí¼ÓÑÕÉ«Ìõ
+surf(X, Y, Z, 'EdgeColor', 'none');  % ç»˜åˆ¶ä¸€ä¸ªæ— è¾¹ç¼˜çš„è¡¨é¢å›¾
+colorbar;  % æ·»åŠ é¢œè‰²æ¡
 xlabel('X Coordinate');
 ylabel('Y Coordinate');
 zlabel('Interpolated Value');
 title('Cubic Spline Interpolation Surface Fit');
-view(3);  % ÉèÖÃÎªÈıÎ¬ÊÓÍ¼
+view(3);  % è®¾ç½®ä¸ºä¸‰ç»´è§†å›¾
 grid on;
 end
 function [X, Y, Z]=LocalLoss(point) 
     x = point(:, 1);
     y = point(:, 3);
     values = point(:, 4);
-localFit = fit([x, y], values, 'loess', 'Span', 0.8);  % Span ¿ØÖÆÆ½»¬³Ì¶È
+localFit = fit([x, y], values, 'loess', 'Span', 0.8);  % Span æ§åˆ¶å¹³æ»‘ç¨‹åº¦
 
-% ´´½¨¾ùÔÈ·Ö²¼µÄÍø¸ñ
+% åˆ›å»ºå‡åŒ€åˆ†å¸ƒçš„ç½‘æ ¼
 gridSize = [201, 351];
     xGrid = linspace(0, 1, gridSize(1));
     yGrid = linspace(0.25, 2, gridSize(2));
 [X, Y] = meshgrid(xGrid, yGrid);
 
-% ¼ÆËãÄâºÏÖµ
+% è®¡ç®—æ‹Ÿåˆå€¼
 Z = localFit(X(:), Y(:));
 
-% ½«½á¹û×ª»»Îª¾ùÔÈÍø¸ñµÄĞÎÊ½
+% å°†ç»“æœè½¬æ¢ä¸ºå‡åŒ€ç½‘æ ¼çš„å½¢å¼
 Z = reshape(Z, size(X));
 
-% »æÖÆÇúÃæÄâºÏ½á¹û
+% ç»˜åˆ¶æ›²é¢æ‹Ÿåˆç»“æœ
 figure;
-surf(X, Y, Z, 'EdgeColor', 'none');  % »æÖÆÒ»¸öÎŞ±ßÔµµÄ±íÃæÍ¼
-colorbar;  % Ìí¼ÓÑÕÉ«Ìõ
+surf(X, Y, Z, 'EdgeColor', 'none');  % ç»˜åˆ¶ä¸€ä¸ªæ— è¾¹ç¼˜çš„è¡¨é¢å›¾
+colorbar;  % æ·»åŠ é¢œè‰²æ¡
 xlabel('X Coordinate');
 ylabel('Y Coordinate');
 zlabel('Fitted Value');
 title('Locally Weighted Regression Surface Fit');
-view(3);  % ÉèÖÃÎªÈıÎ¬ÊÓÍ¼
+view(3);  % è®¾ç½®ä¸ºä¸‰ç»´è§†å›¾
 grid on;
 end
 function [xq,yq,zq]=FEM(point)
@@ -185,27 +185,27 @@ function [xq,yq,zq]=FEM(point)
     y = point(:, 3);
     z = point(:, 6);
    % b= point(:, 4);
-tri = delaunay(x, y); % Ê¹ÓÃ Delaunay Èı½ÇÆÊ·Ö
+tri = delaunay(x, y); % ä½¿ç”¨ Delaunay ä¸‰è§’å‰–åˆ†
 
-% ´´½¨²åÖµº¯Êı
+% åˆ›å»ºæ’å€¼å‡½æ•°
 F = scatteredInterpolant(x, y, z, 'natural', 'linear');
-% ´´½¨Íø¸ñÓÃÓÚ»æÖÆÇúÃæ
-[xq, yq] = meshgrid(0:0.005:1, 0.25:0.005:2); % Éú³É²éÑ¯Íø¸ñ
-zq = F(xq, yq); % ¼ÆËã²åÖµµÄz×ø±ê
+% åˆ›å»ºç½‘æ ¼ç”¨äºç»˜åˆ¶æ›²é¢
+[xq, yq] = meshgrid(0:0.005:1, 0.25:0.005:2); % ç”ŸæˆæŸ¥è¯¢ç½‘æ ¼
+zq = F(xq, yq); % è®¡ç®—æ’å€¼çš„zåæ ‡
 
-% »æÖÆÇúÃæ
+% ç»˜åˆ¶æ›²é¢
 figure;
 surf(xq, yq, zq);
-shading interp; % Æ½»¬×ÅÉ«
-colorbar; % Ìí¼ÓÑÕÉ«Ìõ
-xlabel('X×ø±ê');
-ylabel('Y×ø±ê');
-zlabel('Z×ø±ê');
-title('Ëæ»úÉ¢µãÊı¾İµÄÇúÃæ²åÖµ');
+shading interp; % å¹³æ»‘ç€è‰²
+colorbar; % æ·»åŠ é¢œè‰²æ¡
+xlabel('Xåæ ‡');
+ylabel('Yåæ ‡');
+zlabel('Zåæ ‡');
+title('éšæœºæ•£ç‚¹æ•°æ®çš„æ›²é¢æ’å€¼');
 grid on;
 
-%ÏÔÊ¾É¢µãÊı¾İ
+%æ˜¾ç¤ºæ•£ç‚¹æ•°æ®
 % hold on;
-% % scatter3(x, y, z, 50, 'r', 'filled'); % »æÖÆÉ¢µã
+% % scatter3(x, y, z, 50, 'r', 'filled'); % ç»˜åˆ¶æ•£ç‚¹
 % hold off;
 end
